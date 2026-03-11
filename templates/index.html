@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Lite - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-body">
+    <div class="login-container glass">
+        <h1 class="premium-text">Markdown Lite</h1>
+        <p class="subtitle">Insira seu nickname para começar</p>
+        <form id="login-form" class="login-form">
+            <input type="text" id="username" name="username" placeholder="Seu nickname..." required pattern="^[a-zA-Z0-9_-]+$" title="Apenas letras, números, - e _">
+            <button type="submit" class="btn-primary">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            window.location.href = `/editor/${username}`;
+        });
+    </script>
+</body>
+</html>

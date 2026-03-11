@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Lite - Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+</head>
+
+<body class="editor-body">
+    <header class="header glass">
+        <div class="header-left">
+            <button id="menu-toggle" class="btn-icon mobile-only" title="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+            <h1 class="logo premium-text">Markdown Lite</h1>
+            <span class="username-badge">@<span id="display-username">{{ username }}</span></span>
+        </div>
+
+        <div class="header-center mobile-only">
+            <div class="view-toggles">
+                <button id="toggle-edit" class="toggle-btn active">Edit</button>
+                <button id="toggle-preview" class="toggle-btn">Preview</button>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button id="btn-new" class="btn-icon" title="Novo Arquivo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+            </button>
+            <button id="btn-save" class="btn-primary" title="Salvar (Ctrl+S)">Salvar</button>
+            <a href="/" class="btn-secondary">Sair</a>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside class="sidebar glass">
+            <h2 class="sidebar-title">Seus Arquivos</h2>
+            <div id="file-list" class="file-list" hx-get="/api/files/{{ username }}"
+                hx-trigger="load, refreshFiles from:body" hx-target="#file-list" hx-swap="innerHTML">
+                <div class="loader">Carregando...</div>
+            </div>
+        </aside>
+
+        <section class="editor-container">
+            <div class="current-file-bar">
+                <span id="current-filename">Sem título.md</span>
+            </div>
+            <div class="split-view">
+                <div class="editor-pane">
+                    <textarea id="markdown-input" spellcheck="false"
+                        placeholder="Comece a escrever seu Markdown aqui..."></textarea>
+                </div>
+                <div class="preview-pane">
+                    <div id="markdown-output" class="markdown-body"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Set username for JS
+        window.CURRENT_USER = "{{ username }}";
+    </script>
+</body>
+
+</html>
