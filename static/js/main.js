@@ -29,6 +29,23 @@ function renderMarkdown() {
 
     // Handle Mermaid diagrams
     renderMermaid();
+
+    // Handle LaTeX equations
+    renderMath();
+}
+
+function renderMath() {
+    if (typeof renderMathInElement === 'function') {
+        renderMathInElement(markdownOutput, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            throwOnError: false
+        });
+    }
 }
 
 async function renderMermaid() {
